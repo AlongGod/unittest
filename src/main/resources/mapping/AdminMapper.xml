@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.unittest.unittest.mapper.AdminMapper">
+	<select id="userLogin" resultType="com.unittest.unittest.model.Admin">
+		select * from admin where username=#{userName} and passwd=#{passWord}
+	</select>
+	
+	<select id="queryPageMap" resultType="com.unittest.unittest.model.Admin" parameterType="java.util.HashMap">
+		select * from admin
+		<where>
+			<if test="t.adminType!=null">
+			  admintype=#{t.adminType}
+			</if>
+		</where>
+		order by createtime desc
+	</select>
+	
+	<select id="getById" resultType="com.unittest.unittest.model.Admin" parameterType="java.lang.String">
+		select * from admin where id=#{id}
+	</select>
+	
+	<insert id="insert"  parameterType="com.unittest.unittest.model.Admin">
+		insert into
+		admin(
+		id,
+		username,
+		passwd,
+		realname,
+		admintype,
+		createtime)values(
+		#{id,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{passWd},
+		#{realName,jdbcType=VARCHAR},
+		#{adminType},
+		#{createTime}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.unittest.unittest.model.Admin">
+	    update admin	    
+	    <set>
+	    	<if test="realName != null">
+	    		realname = #{realName},
+	    	</if>
+	    </set>
+	    where id=#{id}
+  </update>
+  
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from admin where
+		id=#{id}
+	</delete>
+	
+	<update id="updatePwd" parameterType="map">
+		update admin set passwd=#{passWd} where id=#{id}
+	</update>
+	
+</mapper> 
